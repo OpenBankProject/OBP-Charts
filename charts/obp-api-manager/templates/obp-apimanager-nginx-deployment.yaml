@@ -1,0 +1,28 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{.Release.Namespace}}-apimanager-nginx-deployment"
+  labels:
+    app: "{{ .Release.Namespace }}-apimanager-nginx"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{ .Release.Namespace }}-apimanager-nginx"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Namespace }}-apimanager-nginx"
+    spec:
+      containers:
+        - name: "{{ .Release.Namespace }}-apimanager-nginx"
+          image: docker.io/openbankproject/apimanager-nginx:latest
+          resources:
+            requests:
+              memory: "1024Mi"
+          ports:
+            - containerPort: 8080
+              name: http

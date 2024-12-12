@@ -1,0 +1,12 @@
+hostname_apimanager: https://api-manager.openbankproject.com
+defaultDomain: https://api-explorer.openbankproject.com
+apiexplorer_ii_consumer_key: c29tZV92YWx1ZQ==
+apiexplorer_ii_consumer_secret: c29tZV92YWx1ZQ==
+hostname_api: https://api.openbankproject.com
+hostname_apiexplorer_ii: https://api-explorer.openbankproject.com
+replicaCount: 1
+apiexplorer_ii_server_session_password: dmVyeV9zZWNyZXQ=
+node_env: production
+redis_url: redis://127.0.0.1:6379
+image_backend: docker.io/openbankproject/api-explorer-ii:latest
+image_frontend: docker.io/openbankproject/apiexplorer-ii-nginx:latest

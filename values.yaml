@@ -1,0 +1,112 @@
+obp-api:
+  enabled: true
+  replicaCount: 1
+  defaultDomain: api.openbankproject.com
+  super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
+  jdbc_driver: "org.postgresql.Driver"
+  # base64 encoded
+  jdbc_url: "amRiYzpwb3N0Z3Jlc3FsOi8vbXlkYi5jb20vYXBpP3VzZXI9YXBpJnBhc3N3b3JkPW15cGFzcw=="
+
+  hostname: "https://api.openbankproject.com"
+
+  migration_scripts_enabled: true
+  migration_scripts_execute_all: true
+
+  webui_override_style_sheet: "https://static.openbankproject.com/css/override.css"
+
+  authuser_skipemailvalidation: true
+  connector: "mapped"
+  webui_api_explorer_url: "https://api-explorer.openbankproject.kube"
+  webui_sofi_url: "https://api-sofit.openbankproject.kube"
+  webui_api_manager_url: "https://api-manager.openbankproject.kube"
+  webui_api_tester_url: "https://api-tester.openbankproject.kube"
+  webui_header_logo_left_url: "https://static.openbankproject.com/images/OBP_full_web.png"
+  write_metrics: true
+  JAVA_OPTIONS: "-Drun.mode=production"
+  cache_redis_url: something.redis.org
+  cache_redis_port: '6379'
+  # base64 encoded
+  keystore_password: JzEyMzQ1Nic=
+  # base64 encoded
+  truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
+  # base64 encoded
+  keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
+  image: docker.io/openbankproject/obp-api:latest
+
+obp-api-explorer:
+  enabled: false
+  replicaCount: 1
+  defaultDomain: api-explorer.openbankproject.com
+  apiexplorer_log_level: ERROR
+  apiexplorer_consumer_key: "eGpqeXJ2c3drYWFwddsafaDDDCfdsafasdNub3h0ZWdnNDFxNGRmMw=="
+  apiexplorer_consumer_secret: "MGJtcHhnd2Joa2hqeWxuNfdsafadDRJDJKFJFV5d21qbm80eXF3NA=="
+
+obp-api-explorer-ii:
+  enabled: true
+  replicaCount: 1
+  defaultDomain: api-explorer.openbankproject.com
+  hostname_apimanager: https://api-manager.openbankproject.com
+  defaultapiexplorer_ii_Domain: https://api-explorer.openbankproject.com
+  # base64 encoded
+  apiexplorer_ii_consumer_key: c29tZV92YWx1ZQ==
+  # base64 encoded
+  apiexplorer_ii_consumer_secret: c29tZV92YWx1ZQ==
+  hostname_api: https://api.openbankproject.com
+  hostname_apiexplorer_ii: https://api-explorer.openbankproject.com
+  apiexplorer_ii_replicaCount: 1
+  # base64 encoded
+  apiexplorer_ii_server_session_password: dmVyeV9zZWNyZXQ=
+  node_env: production
+  redis_url: redis://127.0.0.1:6379
+  image_backend: docker.io/openbankproject/api-explorer-ii:latest
+  image_frontend: docker.io/openbankproject/apiexplorer-ii-nginx:latest
+
+obp-api-manager:
+  enabled: true
+  replicaCount: 1
+  apimanager_hostname: "https://api-manager.openbankproject.kube"
+  apimanager_callback_base_url: "https://api-manager.openbankproject.kube"
+  apimanager_api_version: "4.0.0"
+  # base64 encoded
+  apimanager_secret_key: "c29tZXNlY3JldGtleQ=="
+  apimanager_allowed_hosts: 127.0.0.1,localhost,api-manager.openbankproject.kube
+  apimanager_consumer_key: "NDBmMDR0aTMzaG9rMmV2bnfdsaffdFSEFSFDSp3d3duNWVqNTVsMjJjcA=="
+  apimanager_consumer_secret: "dTViNG5oaXpid3U1MnZ5fdsafFESFDSEFZ2NubGI1YXZ2d2t5cmZheQ=="
+  apimanager_exclude_apps: "[u'API Manager', u'SOFIT', u'API Tester', u'null']"
+  apimanager_exclude_functions: getMetrics,getConnectorMetrics,getAggregateMetrics
+  apimanager_exclude_url_pattern: "['%management/metrics%', '%management/aggregate-metrics%']"
+  apimanager_apiexplorer_app_name: "API Explorer"
+  image: docker.io/openbankproject/api-manager:develop
+
+
+hydra:
+  enabled: false
+  # base64 encoded
+  hydra.config.dsn: c29tZXRoaW5nLmRzbi5jb20gLSB1c2VybmFtZTogb3JiLXNlY3JldGtleQ==
+  hydra.config.urls.self.issuer: http://demo-oauth2.openbankproject.com/hydra-public/
+  hydra.config.urls.login: http://demo-identity.openbankproject.com/login
+  hydra.config.urls.consent: http://demo-identity.openbankproject.com/consent
+  # base64 encoded
+  hydra.config.secrets.system: d2hhdGV2ZXI=
+
+postgresql:
+  enabled: false
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "b3JnLnBvc3werdqrstwcfefs"
+        username: "obp"
+        password: "JaudBoFrivwejIvDoud3"
+        database: "obpdb"
+
+redis:
+  enabled: false
+  architecture: standalone
+  commonConfiguration: |-
+    appendonly no
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+      

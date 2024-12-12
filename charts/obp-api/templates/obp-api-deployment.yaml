@@ -1,0 +1,92 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Release.Namespace }}-deployment
+  labels:
+    app: {{ .Release.Namespace }}-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-api
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: {{ .Release.Namespace }}-api
+    spec:
+      containers:
+        - name: {{ .Release.Namespace }}-api
+          image: {{ .Values.image }}
+          resources: {}
+          #  requests:
+          #    memory: "512Mi"
+          envFrom:
+            - secretRef:
+                name: {{.Release.Namespace}}-api-credentials
+          env:
+            - name: OBP_DB_DRIVER
+              value: {{ .Values.jdbc_driver }}
+            - name: OBP_SUPER_ADMIN_USER_IDS
+              value: '{{ .Values.super_admin_user_ids }}'
+            - name: OBP_MIGRATION_SCRIPTS_ENABLED
+              value: '{{ .Values.migration_scripts_enabled }}'
+            - name: OBP_MIGRATION_SCRIPTS_EXECUTE_ALL
+              value: '{{ .Values.migration_scripts_execute_all }}'
+            - name: OBP_WEBUI_SOFI_URL
+              value: '{{ .Values.webui_sofi_url }}'
+            - name: OBP_WEBUI_API_TESTER_URL
+              value: '{{ .Values.webui_api_tester_url }}'
+            - name: OBP_WEBUI_HEADER_LOGO_LEFT_URL
+              value: '{{ .Values.webui_header_logo_left_url }}'
+            - name: OBP_CONNECTOR
+              value: '{{ .Values.connector }}'
+            - name: OBP_HOSTNAME
+              value: '{{ .Values.hostname }}'
+            - name: OBP_WEBUI_OVERRIDE_STYLE_SHEET
+              value: '{{ .Values.webui_override_style_sheet }}'
+            - name: OBP_AUTHUSER_SKIPEMAILVALIDATION
+              value: '{{ .Values.authuser_skipemailvalidation }}'
+            - name: OBP_WEBUI_API_EXPLORER_URL
+              value: '{{ .Values.webui_api_explorer_url }}'
+            - name: OBP_WEBUI_API_MANAGER_URL
+              value: '{{ .Values.webui_api_manager_url }}'
+            - name: JAVA_OPTIONS
+              value: '{{ .Values.JAVA_OPTIONS}}'
+            - name: OBP_CACHE_REDIS_URL
+              value: '{{ .Values.cache_redis_url }}'
+            - name: OBP_CACHE_REDIS_PORT
+              value: '{{ .Values.cache_redis_port }}'
+            - name: OBP_KEYSTORE_PATH
+              value: /mnt/keystores/keystore.jks
+            - name: OBP_TRUSTSTORE_PATH
+              value: /mnt/keystores/truststore.jks
+          volumeMounts:
+            - name: keystores
+              mountPath: /mnt/keystores
+              readOnly: true
+          ports:
+            - containerPort: 8080
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /obp/v4.0.0/root
+              port: 8080
+            initialDelaySeconds: 180
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /obp/v4.0.0/root
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 50
+      volumes:
+          - name: keystores
+            secret:
+              secretName: keystores-secret

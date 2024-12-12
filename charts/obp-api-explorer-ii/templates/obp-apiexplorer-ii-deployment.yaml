@@ -1,0 +1,58 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{.Release.Namespace}}-apiexplorer-ii-deployment"
+  namespace: {{.Release.Namespace}}
+  labels:
+    app: "{{.Release.Namespace}}-apiexplorer-ii"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{.Release.Namespace}}-apiexplorer-ii"
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: "{{.Release.Namespace}}-apiexplorer-ii"
+    spec:
+      containers:
+        - name: "{{.Release.Namespace}}-apiexplorer-ii"
+          image: {{ .Values.image_backend }}
+          resources:
+            requests:
+              memory: "1024Mi"
+          envFrom:
+            - secretRef:
+                name: '{{ .Release.Namespace }}-apiexplorer-ii-credentials'
+          env:
+            - name: VITE_OBP_API_HOST
+              value: "https://{{ .Values.hostname_api }}"
+            - name: VITE_OBP_API_MANAGER_HOST
+              value: "https://{{ .Values.hostname_apimanager }}"
+            - name: VITE_OBP_API_EXPLORER_HOST
+              value: "https://{{ .Values.hostname_apiexplorer_ii }}"
+            - name: VITE_OBP_HOST
+              value: "https://{{ .Values.hostname_api }}"
+            - name: VITE_OBP_REDIRECT_URL
+              value: "https://{{ .Values.hostname_apiexplorer_ii }}/api/callback"
+            - name: VITE_OBP_API_VERSION
+              value: "v5.1.0"
+            - name: VITE_OBP_REDIS_URL
+              value: {{ .Values.redis_url }}
+            - name: NODE_ENV
+              value: {{ .Values.node_env }}
+          ports:
+            - containerPort: 8085
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8085
+            initialDelaySeconds: 180
+            timeoutSeconds: 20
+            periodSeconds: 60
+            failureThreshold: 10

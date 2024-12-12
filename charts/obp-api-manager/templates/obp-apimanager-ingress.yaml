@@ -1,0 +1,38 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Namespace }}-apimanager-ingress"
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    cert-manager.io/issuer: letsencrypt-real
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    # If you encounter a redirect loop or are getting a 307 response code
+    # then you need to force the nginx ingress to connect to the backend using HTTPS.
+    #
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: {{ .Values.defaultDomain }}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: "{{ .Release.Namespace }}-apimanager-service"
+              port:
+                number: 83
+        - path: /static
+          pathType: Prefix
+          backend:
+            service:
+              name: "{{ .Release.Namespace }}-apimanager-nginx-service"
+              port:
+                number: 84
+  tls:
+    - hosts:
+        - {{ .Values.defaultDomain }}
+      secretName: apimanager-tls-cert

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: obp-api-explorer
+description: Helm chart for deploying legacy Openbankproject API Explorer
+type: application
+version: 0.0.1
+appVersion: "latest"
+

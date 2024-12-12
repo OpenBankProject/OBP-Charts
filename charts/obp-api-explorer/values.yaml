@@ -1,0 +1,5 @@
+apiexplorer_log_level: ERROR
+apiexplorer_consumer_key: "eGpqeXJ2c3drYWpqZmRzZmFhZmFzb3h0ZWdnNDFxNGRmMw=="
+apiexplorer_consumer_secret: "MGJtcHhnd2Joa2hqhEfcojSJFJDKDKpwbTV5d21qbm80eXF3NA=="
+defaultDomain: api-explorer.openbankproject.com
+replicaCount: 1

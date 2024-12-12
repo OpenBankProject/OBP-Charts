@@ -1,0 +1,6 @@
+.idea/
+.fleet/
+values_*
+Chart.lock
+*.tgz
+charts/*.tgz

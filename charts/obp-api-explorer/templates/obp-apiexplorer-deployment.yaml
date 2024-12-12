@@ -1,0 +1,50 @@
+---
+kind: Deployment
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: apps/v1
+metadata:
+  name: "{{.Release.Namespace}}-apiexplorer-deployment"
+  namespace: {{.Release.Namespace}}
+  labels:
+    app: "{{.Release.Namespace}}-apiexplorer"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{.Release.Namespace}}-apiexplorer"
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: "{{.Release.Namespace}}-apiexplorer"
+    spec:
+      containers:
+        - name: "{{.Release.Namespace}}-apiexplorer"
+          image: docker.io/openbankproject/api-explorer:latest
+          resources:
+            requests:
+              memory: "1024Mi"
+          envFrom:
+            - secretRef:
+                name: '{{ .Release.Namespace }}-apiexplorer-credentials'
+          env:
+            - name: BASE_URL
+              value: '{{ .Values.webui_api_explorer_url }}'
+            - name: API_HOSTNAME
+              value: '{{ .Values.hostname }}'
+            - name: LOG_LEVEL
+              value: '{{ .Values.apiexplorer_log_level }}'
+            - name: API_MANAGER_URL
+              value: '{{ .Values.apimanager_hostname }}'
+          ports:
+            - containerPort: 8080
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 180
+            timeoutSeconds: 20
+            periodSeconds: 60
+            failureThreshold: 10

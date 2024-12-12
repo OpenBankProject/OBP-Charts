@@ -1,0 +1,53 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{ .Release.Namespace }}-apimanager-deployment"
+  namespace: {{.Release.Namespace}}
+  labels:
+      app: "{{.Release.Namespace}}-apimanager"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{.Release.Namespace}}-apimanager"
+  template:
+    metadata:
+      namespace: {{.Release.Namespace}}
+      labels:
+        app: "{{.Release.Namespace}}-apimanager"
+    spec:
+      containers:
+        - name: "{{ .Release.Namespace }}-apimanager"
+          image: {{ .Values.image }}
+          resources:
+            requests:
+              memory: "1024Mi"
+          envFrom:
+            - secretRef:
+                name: {{.Release.Namespace}}-apimanager-credentials
+          env: 
+            - name: API_HOST
+              value: "{{ .Values.hostname }}"
+            - name: API_PORTAL
+              value: "{{ .Values.hostname }}"
+            - name: CALLBACK_BASE_URL
+              value: "{{ .Values.apimanager_callback_base_url }}"
+            - name: ALLOWED_HOSTS
+              value: "{{ .Values.apimanager_allowed_hosts }}"
+            - name: API_EXPLORER_HOST
+              value: "{{ .Values.webui_api_explorer_url }}"
+            - name: API_EXPLORER_APP_NAME
+              value: "{{ .Values.apimanager_apiexplorer_app_name }}"
+            - name: EXCLUDE_APPS
+              value: "{{ .Values.apimanager_exclude_apps }}"
+            - name: EXCLUDE_FUNCTIONS
+              value: "{{ .Values.apimanager_exclude_functions }}"
+            - name: EXCLUDE_URL_PATTERN
+              value: "{{ .Values.apimanager_exclude_url_pattern }}"
+          ports:
+            - containerPort: 8000
+              name: http
+

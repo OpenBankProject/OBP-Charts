@@ -1,0 +1,36 @@
+apiVersion: v2
+name: obp-stack
+description: Helm chart for deploying Openbankproject stack
+type: application
+version: 0.0.1
+appVersion: "latest"
+
+dependencies:
+- name: obp-api
+  condition: obp-api.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api"
+- name: obp-api-explorer
+  condition: obp-api-explorer.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api-explorer"
+- name: obp-api-explorer-ii
+  condition: obp-api-explorer-ii.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api-explorer-ii"
+- name: obp-api-manager
+  condition: obp-api-manager.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api-manager"
+- name: "postgresql"
+  version: 15.1.4
+  condition: postgresql.enabled
+  repository: "https://charts.bitnami.com/bitnami"
+- name: "redis"
+  version: 19.0.1
+  condition: redis.enabled
+  repository: "https://charts.bitnami.com/bitnami"
+- name: "hydra"
+  version: v0.40.0
+  condition: hydra.enabled
+  repository: "https://k8s.ory.sh/helm/charts"

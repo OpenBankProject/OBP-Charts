@@ -1,0 +1,14 @@
+defaultDomain: api-manager.openbankproject.kube
+replicaCount: 1
+apimanager_hostname: "https://api-manager.openbankproject.com"
+apimanager_callback_base_url: "https://api-manager.openbankproject.com"
+apimanager_api_version: "4.0.0"
+apimanager_secret_key: "c29tZW90aGVyc2VjcmV0a2V5"
+apimanager_allowed_hosts: 127.0.0.1,localhost,api-manager.openbankproject.com
+apimanager_consumer_key: "NDBmMDR0aTMzdfssdaddadKNMDFSnV5Y3p3d3duNWVqNTVsMjJjcA=="
+apimanager_consumer_secret: "dTViNG5oaXpid3UDKJSVKFKELSRtZ2NubGI1YXZ2d2t5cmZheQ=="
+apimanager_exclude_apps: "[u'API Manager', u'SOFIT', u'API Tester', u'null']"
+apimanager_exclude_functions: getMetrics,getConnectorMetrics,getAggregateMetrics
+apimanager_exclude_url_pattern: "['%management/metrics%', '%management/aggregate-metrics%']"
+apimanager_apiexplorer_app_name: "API Explorer"
+image: docker.io/openbankproject/api-manager:develop

@@ -1,0 +1,16 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Release.Namespace }}-apiexplorer-service
+    namespace: {{.Release.Namespace}}
+spec:
+    selector:
+        app: {{ .Release.Namespace }}-apiexplorer
+    ports:
+    - name: http
+      protocol: TCP
+      port: 81
+      targetPort: 8080
+    type: ClusterIP

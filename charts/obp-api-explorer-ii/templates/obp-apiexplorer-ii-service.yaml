@@ -1,0 +1,16 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ .Release.Namespace }}-apiexplorer-ii-service
+    namespace: {{.Release.Namespace}}
+spec:
+    selector:
+        app: {{ .Release.Namespace }}-apiexplorer-ii
+    ports:
+    - name: http
+      protocol: TCP
+      port: 85
+      targetPort: 8085
+    type: ClusterIP
