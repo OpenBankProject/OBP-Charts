@@ -1,6 +1,7 @@
 # Helm Chart for Open Bank Project
 
 This Helm chart is used to deploy the Open Bank Project API and related services.
+©TESOBE GmbH, published under the Apache Public License v2.0
 
 ## Parameters
 
