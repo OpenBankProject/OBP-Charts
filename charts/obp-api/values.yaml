@@ -1,28 +1,29 @@
 defaultDomain: api.openbankproject.com
 replicaCount: 1
-super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
-jdbc_driver: "org.postgresql.Driver"
-jdbc_url: "amRiYzpwb3N0Z3Jlc3FsOi8vbXlkYi5jb20vYXBpP3VzZXI9YXBpJnBhc3N3b3JkPW15cGFzcw=="
-hostname: "https://api.openbankproject.com"
+javaOptions: "-Drun.mode=production"
+api:
+  super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
+  jdbc_driver: "org.postgresql.Driver"
+  jdbc_url: "amRiYzpwb3N0Z3Jlc3FsOi8vbXlkYi5jb20vYXBpP3VzZXI9YXBpJnBhc3N3b3JkPW15cGFzcw=="
+  hostname: "https://api.openbankproject.com"
 
-migration_scripts_enabled: true
-migration_scripts_execute_all: true
+  migration_scripts_enabled: true
+  migration_scripts_execute_all: true
 
-webui_override_style_sheet: "https://static.openbankproject.com/css/override.css"
+  webui_override_style_sheet: "https://static.openbankproject.com/css/override.css"
 
-authuser_skipemailvalidation: true
-connector: "mapped"
-webui_api_explorer_url: "https://api-explorer.openbankproject.com"
-webui_sofi_url: "https://api-sofit.openbankproject.com"
-webui_api_manager_url: "https://api-manager.openbankproject.com"
-webui_api_tester_url: "https://api-tester.openbankproject.com"
-webui_header_logo_left_url: "https://static.openbankproject.com/images/OBP_full_web.png"
-write_metrics: true
-JAVA_OPTIONS: "-Drun.mode=production"
-cache_redis_url: myredis.somewhere.com
-cache_redis_port: '6379'
-keystore_password: JzEyMzQ1Nic=
-truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
-keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
-image: docker.io/openbankproject/obp-api:latest
+  authuser_skipemailvalidation: true
+  connector: "mapped"
+  webui_api_explorer_url: "https://api-explorer.openbankproject.com"
+  webui_sofi_url: "https://api-sofit.openbankproject.com"
+  webui_api_manager_url: "https://api-manager.openbankproject.com"
+  webui_api_tester_url: "https://api-tester.openbankproject.com"
+  webui_header_logo_left_url: "https://static.openbankproject.com/images/OBP_full_web.png"
+  write_metrics: true
+  cache_redis_url: myredis.somewhere.com
+  cache_redis_port: '6379'
+  keystore_password: JzEyMzQ1Nic=
+  truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
+  keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
+
 
