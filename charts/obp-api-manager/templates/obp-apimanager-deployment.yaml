@@ -47,6 +47,8 @@ spec:
               value: "{{ .Values.apimanager_exclude_functions }}"
             - name: EXCLUDE_URL_PATTERN
               value: "{{ .Values.apimanager_exclude_url_pattern }}"
+            - name: CSRF_TRUSTED_ORIGINS
+              value: "{{ .Values.apimanager_CSRF_TRUSTED_ORIGINS}}"
           ports:
             - containerPort: 8000
               name: http

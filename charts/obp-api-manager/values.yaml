@@ -11,4 +11,5 @@ apimanager_exclude_apps: "[u'API Manager', u'SOFIT', u'API Tester', u'null']"
 apimanager_exclude_functions: getMetrics,getConnectorMetrics,getAggregateMetrics
 apimanager_exclude_url_pattern: "['%management/metrics%', '%management/aggregate-metrics%']"
 apimanager_apiexplorer_app_name: "API Explorer"
+CSRF_TRUSTED_ORIGINS = "['https://*.127.0.0.1', 'https://localhost', 'https://api-manager.openbankproject.com']"
 image: docker.io/openbankproject/api-manager:develop
