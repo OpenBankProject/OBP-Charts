@@ -7,8 +7,6 @@ This Helm chart is used to deploy the Open Bank Project API and related services
 
 ### obp-api Parameters
 
-Here's the updated `README.md` parameter section based on the new structure of the `values.yaml` file:
-
 ---
 
 ### obp-api Parameters
@@ -64,8 +62,6 @@ Here's the updated `README.md` parameter section based on the new structure of t
 | `obp.authUser_skipEmailValidation` | Skip email validation for auth users | `false`        |
 
 ---
-
-This updated table matches the new structure of the `values.yaml` file and organizes parameters into categories for better readability and clarity. Let me know if further tweaks are needed! 😊
 
 ### obp-api-explorer-ii Parameters
 
