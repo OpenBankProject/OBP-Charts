@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Namespace }}-api
-          image: {{ .Values.image }}
+          image: {{ .Values.deploy.image }}
           resources:
             limits:
               memory: {{ .Values.deploy.memoryLimit }}
