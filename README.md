@@ -4,11 +4,6 @@ This Helm chart is used to deploy the Open Bank Project API and related services
 
 ## Parameters
 
-
-### obp-api Parameters
-
----
-
 ### obp-api Parameters
 
 #### Deployment Configuration
