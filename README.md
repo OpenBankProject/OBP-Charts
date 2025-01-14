@@ -51,12 +51,6 @@ Here's the updated `README.md` parameter section based on the new structure of t
 | `obp.webui_api_tester_url` | URL for the API Tester                          | `https://api-tester.openbankproject.com`  |
 | `obp.webui_header_logo_left_url` | URL for the header logo                   | `https://static.openbankproject.com/images/OBP_full_web.png` |
 
-#### Advanced Settings
-| Parameter                  | Description                                      | Default                                   |
-|----------------------------|--------------------------------------------------|-------------------------------------------|
-                                 |
-                               |
-
 #### OBP Cache Configuration
 | Parameter                  | Description                                      | Default                                   |
 |----------------------------|--------------------------------------------------|-------------------------------------------|
