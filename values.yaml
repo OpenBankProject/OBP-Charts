@@ -1,37 +1,45 @@
 obp-api:
   enabled: true
-  replicaCount: 1
-  defaultDomain: api.openbankproject.com
-  super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
-  jdbc_driver: "org.postgresql.Driver"
-  # base64 encoded
-  jdbc_url: "amRiYzpwb3N0Z3Jlc3FsOi8vbXlkYi5jb20vYXBpP3VzZXI9YXBpJnBhc3N3b3JkPW15cGFzcw=="
+  deploy:
+    replicaCount: 1
+    memoryLimit: 16Gi
+    cpuLimit: 4
+    memoryRequest: 2Gi
+    cpuRequest: 1
+    defaultDomain: api.openbankproject.com
+    # base64 encoded keystore object, password declared in obp values
+    truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
+    # base64 encoded keystore object, password declared in obp values
+    keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
+    image: docker.io/openbankproject/obp-api:latest
+    javaOptions: "-Drun.mode=production"
+  obp:
+    super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
+    db_driver: "org.postgresql.Driver"
+    # base64 encoded
+    db_url: "amRiYzpwb3N0Z3Jlc3FsOi8vbXlkYi5jb20vYXBpP3VzZXI9YXBpJnBhc3N3b3JkPW15cGFzcw=="
 
-  hostname: "https://api.openbankproject.com"
+    hostname: "https://api.openbankproject.com"
+    # base64 encoded
+    keystore_password: JzEyMzQ1Nic=
 
-  migration_scripts_enabled: true
-  migration_scripts_execute_all: true
+    migration_scripts.enabled: true
+    migration_scripts.execute_all: true
 
-  webui_override_style_sheet: "https://static.openbankproject.com/css/override.css"
+    webui_override_style_sheet: "https://static.openbankproject.com/css/override.css"
 
-  authuser_skipemailvalidation: true
-  connector: "mapped"
-  webui_api_explorer_url: "https://api-explorer.openbankproject.kube"
-  webui_sofi_url: "https://api-sofit.openbankproject.kube"
-  webui_api_manager_url: "https://api-manager.openbankproject.kube"
-  webui_api_tester_url: "https://api-tester.openbankproject.kube"
-  webui_header_logo_left_url: "https://static.openbankproject.com/images/OBP_full_web.png"
-  write_metrics: true
-  JAVA_OPTIONS: "-Drun.mode=production"
-  cache_redis_url: something.redis.org
-  cache_redis_port: '6379'
-  # base64 encoded
-  keystore_password: JzEyMzQ1Nic=
-  # base64 encoded
-  truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
-  # base64 encoded
-  keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
-  image: docker.io/openbankproject/obp-api:latest
+    authuser_skipEmailValidation: true
+    connector: "mapped"
+    webui_api_explorer_url: "https://api-explorer.openbankproject.kube"
+    webui_sofi_url: "https://api-sofit.openbankproject.kube"
+    webui_api_manager_url: "https://api-manager.openbankproject.kube"
+    webui_api_tester_url: "https://api-tester.openbankproject.kube"
+    webui_header_logo_left_url: "https://static.openbankproject.com/images/OBP_full_web.png"
+    write_metrics: true
+    cache_redis_url: something.redis.org
+    cache_redis_port: '6379'
+
+
 
 obp-api-explorer:
   enabled: false
