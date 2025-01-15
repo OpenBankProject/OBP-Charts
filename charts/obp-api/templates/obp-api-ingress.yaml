@@ -11,7 +11,7 @@ metadata:
     kubernetes.io/tls-acme: "true"
 spec:
   rules:
-  - host: {{ .Values.defaultDomain }}
+  - host: {{ .Values.deploy.defaultDomain }}
     http:
       paths:
         - path: /
@@ -23,6 +23,6 @@ spec:
                 number: 80
   tls:
     - hosts:
-        - {{ .Values.defaultDomain }}
+        - {{ .Values.deploy.defaultDomain }}
       secretName: apitls-cert
 

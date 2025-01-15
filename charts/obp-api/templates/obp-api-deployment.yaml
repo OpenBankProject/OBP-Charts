@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Release.Namespace }}-api
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.deploy.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Namespace }}-api
@@ -19,24 +19,37 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Namespace }}-api
-          image: {{ .Values.image }}
-          resources: {}
-          #  requests:
-          #    memory: "512Mi"
+          image: {{ .Values.deploy.image }}
+          resources:
+            limits:
+              memory: {{ .Values.deploy.memoryLimit }}
+              cpu: {{ .Values.deploy.cpuLimit }}
+            requests:
+              memory: {{ .Values.deploy.memoryRequest }}
+              cpu: {{ .Values.deploy.cpuRequest }}
           envFrom:
             - secretRef:
-                name: {{.Release.Namespace}}-api-credentials
+                name: {{ .Release.Namespace }}-api-credentials
           env:
-{{- range $key, $value := .Values.api }}
+{{- range $key, $value := .Values.obp }}
+  {{- $blacklist := list "keystore_password" "db_url" "db.url" "truststore_path" "keystore_path" }}
+  {{- $isBlacklisted := false }}
+  {{- range $blacklist }}
+    {{- if eq . $key }}
+      {{- $isBlacklisted = true }}
+    {{- end }}
+  {{- end }}
+  {{- if not $isBlacklisted }}
             - name: OBP_{{ $key | upper | replace "." "_" }}
               value: {{ $value | quote }}
+  {{- end }}
 {{- end }}
             - name: OBP_KEYSTORE_PATH
-              value: /mnt/keystores/keystore.jks
+              value: {{ .Values.obp.keystore_path | default "/mnt/keystores/keystore.jks" }}
             - name: OBP_TRUSTSTORE_PATH
-              value: /mnt/keystores/truststore.jks
+              value: {{ .Values.obp.truststore_path | default "/mnt/keystores/truststore.jks" }}
             - name: JAVA_OPTIONS
-              value: {{ .Values.config. }}
+              value: {{ .Values.deploy.javaOptions }}
           volumeMounts:
             - name: keystores
               mountPath: /mnt/keystores
