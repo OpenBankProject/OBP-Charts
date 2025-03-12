@@ -1,4 +1,5 @@
 deploy:
+  image: docker.io/openbankproject/obp-api:latest
   defaultDomain: api.openbankproject.com
   replicaCount: 1
   javaOptions: "-Drun.mode=production"
@@ -6,8 +7,8 @@ deploy:
   keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
   memoryLimit: 16Gi
   cpuLimit: 4
-  memoryRequest: 2Gi
-  cpuRequest: 1
+  memoryRequest: 1Gi
+  cpuRequest: 0.5
 obp:
   super_admin_user_ids: "32274848-c124-49c3-a3c7-d292bebfc3da"
   db_driver: "org.postgresql.Drivermein"

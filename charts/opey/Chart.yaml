@@ -1,0 +1,11 @@
+apiVersion: v2
+name: opey
+description: A Helm chart for Opey
+type: application
+version: 0.0.1
+appVersion: "latest"
+dependencies:
+  - name: "redis"
+    version: 19.0.1
+    condition: redis.enabled
+    repository: "https://charts.bitnami.com/bitnami"
