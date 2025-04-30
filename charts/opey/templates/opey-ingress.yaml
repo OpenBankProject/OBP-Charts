@@ -1,0 +1,28 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    cert-manager.io/issuer: letsencrypt-real
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+  - host: {{ .Values.deploy.defaultDomain }}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Chart.Name }}-service
+              port:
+                number: 80
+  tls:
+    - hosts:
+        - {{ .Values.deploy.defaultDomain }}
+      secretName: opey-tls-cert
+

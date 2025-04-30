@@ -1,0 +1,10 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+apiVersion: v1
+kind: Secret
+metadata:
+  name: { { .Chart.Name } }-private-key
+  namespace: {{ .Release.Namespace }}
+type: Opaque
+data:
+  private_key.pem: {{ .Values.deploy.private_key }}
