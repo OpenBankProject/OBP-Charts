@@ -1,0 +1,67 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Release.Namespace }}-deployment
+  labels:
+    app: {{ .Release.Namespace }}-api-dispatch
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-api-dispatch
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: {{ .Release.Namespace }}-api-dispatch
+    spec:
+      containers:
+        - name: {{ .Release.Namespace }}-api-dispatch
+          image: {{ .Values.image }}
+          resources:
+            limits:
+              memory: {{ .Values.memoryLimit }}
+              cpu: {{ .Values.cpuLimit }}
+            requests:
+              memory: {{ .Values.memoryRequest }}
+              cpu: {{ .Values.cpuRequest }}
+          env:
+            - name: JAVA_OPTIONS
+              value: {{ .Values.javaOptions }}
+            - name: DISPATCH_HOST
+              value: {{ .Values.dispatch_host }}
+            - name: DISPATCH_PORT
+              value: {{ .Values.dispatch_port }}
+            - name: API_BASE_URI
+              value: {{ .Values.obp_api_1_base_uri }}
+
+          volumeMounts:
+            - name: dispatch-logback
+              mountPath: /opt/app/logback.xml
+              subPath: logback.xml
+              readOnly: true
+          ports:
+            - containerPort: 8080
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /check
+              port: 8088
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 360
+            failureThreshold: 6
+          startupProbe:
+            httpGet:
+              path: /check
+              port: 8088
+            initialDelaySeconds: 30
+            timeoutSeconds: 15
+            periodSeconds: 10
+            failureThreshold: 50
+      volumes:
+          - name: dispatch-logback
+            configMap:
+              name: dispatch-logback

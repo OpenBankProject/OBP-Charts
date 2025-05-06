@@ -10,6 +10,10 @@ dependencies:
   condition: obp-api.enabled
   version: "0.0.1"
   repository: "file://./charts/obp-api"
+- name: obp-api-dispatch
+  condition: obp-api-dispatch.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api-dispatch"
 - name: obp-api-explorer
   condition: obp-api-explorer.enabled
   version: "0.0.1"
