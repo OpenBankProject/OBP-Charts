@@ -54,6 +54,10 @@ spec:
             - name: keystores
               mountPath: /mnt/keystores
               readOnly: true
+            - name: obp-logback
+              mountPath: /var/lib/jetty/resources/logback.xml
+              subPath: logback.xml
+              readOnly: true
           ports:
             - containerPort: 8080
               name: http
@@ -77,3 +81,6 @@ spec:
           - name: keystores
             secret:
               secretName: keystores-secret
+          - name: obp-logback
+            configMap:
+              name: obp-logback

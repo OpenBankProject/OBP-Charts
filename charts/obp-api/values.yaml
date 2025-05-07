@@ -2,7 +2,7 @@ deploy:
   image: docker.io/openbankproject/obp-api:latest
   defaultDomain: api.openbankproject.com
   replicaCount: 1
-  javaOptions: "-Drun.mode=production"
+  javaOptions: "-Drun.mode=production -Dlogback.configurationFile=/var/lib/jetty/resources/logback.xml"
   truststore: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
   keystore: YmFzZSA2NCBlbmNvZGVkIGtleXN0b3JlLmprcw==
   memoryLimit: 16Gi
@@ -30,4 +30,15 @@ obp:
   cache_redis_url: myredis.somewhere.com
   cache_redis_port: '6379'
   keystore_password: JzEyMzQ1Nic=
+  logbackXml: |-
+    <configuration>
+      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+          <pattern>%d{yyyy-MM-dd HH:mm:ss} %t %c{0} [%p] %m%n</pattern>
+        </encoder>
+      </appender>
+      <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+      </root>
+    </configuration>
 
