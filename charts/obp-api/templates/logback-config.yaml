@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: obp-logback
+  namespace: {{ .Release.Namespace }}
+data:
+  logback.xml: |-
+    {{ .Values.app.logbackXml | indent 4 }}

@@ -10,6 +10,10 @@ dependencies:
   condition: obp-api.enabled
   version: "0.0.1"
   repository: "file://./charts/obp-api"
+- name: obp-api-dispatch
+  condition: obp-api-dispatch.enabled
+  version: "0.0.1"
+  repository: "file://./charts/obp-api-dispatch"
 - name: obp-api-explorer
   condition: obp-api-explorer.enabled
   version: "0.0.1"
@@ -22,6 +26,10 @@ dependencies:
   condition: obp-api-manager.enabled
   version: "0.0.1"
   repository: "file://./charts/obp-api-manager"
+- name: opey
+  condition: opey.enabled
+  version: "0.0.1"
+  repository: "file://./charts/opey"
 - name: "postgresql"
   version: 15.1.4
   condition: postgresql.enabled

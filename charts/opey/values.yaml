@@ -1,0 +1,38 @@
+deploy:
+  defaultDomain: "opey.example.com"
+  image: docker.io/openbankproject/opey:latest
+  replicaCount: 1
+  public_explorer_key: YmFzZTY0IGVuY29kZWQgdHJ1c3RzdG9yZS5qa3M=
+  memoryLimit: 16Gi
+  cpuLimit: 2
+  memoryRequest: 1Gi
+  cpuRequest: 0.5
+app:
+  # openai api key needs to be base64 encoded
+  OPENAI_API_KEY: "sk-proj-your_OpenAI_API_key"
+  BUILD_OPEY_VECTORDB: "true"
+  MOUNT_PATH: "/opey"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  CONVERSATION_SUMMARY_TOKENS_LIMIT: "15000"
+  LOG_LEVEL: "INFO"
+  OBP_API_HOST: "https://apisandbox.openbankproject.com"
+  OBP_CONSUMER_KEY: ""
+  OBP_CONSUMER_SECRET: ""
+  OBP_API_EXPLORER_II_PUBLIC_KEY_PATH: "/keys/public_key.pem"
+  ENDPOINT_METADATA_PATH: "./vector-database/endpoint_metadata.json"
+  GLOSSARY_METADATA_PATH: "./vector-database/glossary_metadata.json"
+  ENDPOINT_VECTOR_DATABASE_PATH: "./vector-database/endpoint_index.faiss"
+  GLOSSARY_VECTOR_DATABASE_PATH: "./vector-database/glossary_index.faiss"
+redis:
+  enabled: true
+  fullnameOverride: "opey-redis"
+  architecture: standalone
+  commonConfiguration: |-
+    appendonly no
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+

@@ -1,3 +1,6 @@
+deploy:
+  #base64 encoded
+  private_key: c29tZV92YWx1ZQ==
 hostname_apimanager: https://api-manager.openbankproject.com
 defaultDomain: https://api-explorer.openbankproject.com
 apiexplorer_ii_consumer_key: c29tZV92YWx1ZQ==

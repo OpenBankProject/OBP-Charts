@@ -1,0 +1,55 @@
+# Copyright (C) 2024-2025, TESOBE GmbH
+# Email: contact@tesobe.com
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Release.Namespace }}-deployment
+  labels:
+    app: {{ .Release.Namespace }}-opey
+spec:
+  replicas: {{ .Values.deploy.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-opey
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: {{ .Release.Namespace }}-opey
+    spec:
+      containers:
+        - name: opey
+          image: {{ .Values.deploy.image }}
+          resources:
+            limits:
+              memory: {{ .Values.deploy.memoryLimit }}
+              cpu: {{ .Values.deploy.cpuLimit }}
+            requests:
+              memory: {{ .Values.deploy.memoryRequest }}
+              cpu: {{ .Values.deploy.cpuRequest }}
+          envFrom:
+            - secretRef:
+                name: openai-api-secret
+            - secretRef:
+                name: {{ .Chart.Name }}-obp-credentials
+          env:
+{{- range $key, $value := .Values.app }}
+  {{- $blacklist := list "OPENAI_API_KEY" "OBP_CONSUMER_KEY" "OBP_CONSUMER_SECRET" }}
+  {{- $isBlacklisted := false }}
+  {{- range $blacklist }}
+    {{- if eq . $key }}
+      {{- $isBlacklisted = true }}
+    {{- end }}
+  {{- end }}
+  {{- if not $isBlacklisted }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+  {{- end }}
+{{- end }}
+          volumeMounts:
+            - name: obp-public-key-volume
+              mountPath: /keys
+      volumes:
+        - name: obp-public-key-volume
+          configMap:
+            name: {{ .Chart.Name }}-public-explorer-key
