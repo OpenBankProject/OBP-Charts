@@ -1,6 +1,6 @@
 apiVersion: v2
 name: obp-api-explorer-ii
-description: Helm chart for deploying Openbankproject API Explorer II
+description: Helm chart for deploying OBP API Explorer II
 type: application
 version: 0.0.1
 appVersion: "latest"

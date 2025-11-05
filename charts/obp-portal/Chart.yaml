@@ -1,0 +1,7 @@
+apiVersion: v2
+name: obp-api-portal
+description: OBP-api.openbankproject.com-HelmChart
+type: application
+version: 0.1.0
+appVersion: "latest"
+

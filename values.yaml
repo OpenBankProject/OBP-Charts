@@ -135,7 +135,7 @@ postgresql:
         database: "obpdb"
 
 redis:
-  enabled: false
+  enabled: true
   architecture: standalone
   commonConfiguration: |-
     appendonly no

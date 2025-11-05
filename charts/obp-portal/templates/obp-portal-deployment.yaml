@@ -1,0 +1,70 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{.Release.Namespace}}-portal-deployment"
+  namespace: {{.Release.Namespace}}
+  labels:
+    app: "{{.Release.Namespace}}-portal"
+spec:
+  replicas: {{ .Values.portal_replicaCount }}
+  selector:
+    matchLabels:
+      app: "{{.Release.Namespace}}-portal"
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: "{{.Release.Namespace}}-portal"
+    spec:
+      containers:
+        - name: "{{.Release.Namespace}}-portal"
+          image: docker.io/openbankproject/obp-portal:latest
+          resources:
+            requests:
+              memory: "1024Mi"
+          envFrom:
+            - secretRef:
+                name: '{{ .Release.Namespace }}-portal-credentials'
+          env:
+            - name: OBP_OAUTH_CLIENT_ID
+              value: "{{ .Values.obp_oauth_client_id }}"
+            - name: KEYCLOAK_OAUTH_CLIENT_ID
+              value: "{{ .Values.keycloak_oauth_client_id }}"
+            - name: APP_CALLBACK_URL
+              value: "{{ .Values.portal_url }}/login/obp/callback"
+            - name: ORIGIN
+              value: "{{ .Values.portal_url }}"
+            - name: PUBLIC_OBP_BASE_URL
+              value: "{{ .Values.obp-api.defaultDomain }}"
+            - name: REDIS_HOST
+              value: "{{ .Values.redis_url }}"
+            - name: REDIS_PORT
+              value: '6379'
+            - name: API_EXPLORER_URL
+              value: "{{ .Values.obp-api-explorer-ii.hostname_apiexplorer_ii}}"
+            - name: API_MANAGER_URL
+              value: "{{ .Values.obp-api-manager.apimanager_hostname }}"
+            - name: PUBLIC_LOGO_URL
+              value: "{{ .Values.public_logo_url }}"
+            - name: PUBLIC_DARK_LOGO_URL
+              value: "{{ .Values.public_dark_logo_url }}"
+            - name: OPEY_BASE_URL
+              value: "{{ .Values.portal_url }}/opey"
+            - name: PUBLIC_OPEY_BASE_URL
+              value: "{{ .Values.portal_url }}/opey"
+            - name: OPEY_CONSUMER_ID
+              value: "{{ .Values.opey_consumer_id }}"
+            - name: NODE_ENV
+              value: 'production'
+          ports:
+            - containerPort: 3000
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 180
+            timeoutSeconds: 20
+            periodSeconds: 60
+            failureThreshold: 10
